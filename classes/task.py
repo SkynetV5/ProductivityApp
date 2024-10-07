@@ -14,4 +14,4 @@ class Task(CTkLabel):
     def checkbox(self, row, command=None):
         
         self.checkbox_widget = CTkCheckBox(master=self.master, text="", width=20, height=20, variable=self.checkbox_var ,command=command)
-        self.checkbox_widget.grid(row=row, column=1, padx=10, pady=10)
+        self.checkbox_widget.grid(row=row, column=1, padx=10, pady=10, sticky="e")
