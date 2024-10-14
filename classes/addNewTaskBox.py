@@ -15,9 +15,9 @@ class AddNewTaskBox(CTkToplevel):
         self.entry_label.pack(pady=(30,0))
         self.entry = CTkEntry(master=self.message_frame, width=400, height=30, textvariable=self.task)
         self.entry.pack(pady=(0,10), padx=30)
-        self.button_add = CTkButton(master=self.message_frame, width=100, height=30, text="Dodaj", command=self.button_add_command)
+        self.button_add = CTkButton(master=self.message_frame, width=100, height=30, text="Dodaj", font=self.font, command=self.button_add_command)
         self.button_add.pack(side="left", padx=(30,0))
-        self.button_close = CTkButton(master=self.message_frame, fg_color="#f44336", width=100, height=30, text="Anuluj", command=self.destroy)
+        self.button_close = CTkButton(master=self.message_frame, fg_color="#F44336", hover_color="#B6342A", width=100, height=30, text="Anuluj", font=self.font, command=self.destroy)
         self.button_close.pack(side="right", padx=(0,30))
         
     def get_task_value(self):

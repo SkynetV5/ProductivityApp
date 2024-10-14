@@ -4,19 +4,14 @@ from classes.messageInfoBox import MessageInfoBox
 from classes.task import Task
 from classes.addNewTaskBox import AddNewTaskBox
 from tkinter import *
-FONT = ("Courier", 15, 'bold')
+from PIL import Image
 
+
+FONT = ("Courier", 15, 'bold')
 completed_tasks = 0
 tasks = []
-now = dt.datetime.now()
-month = now.month
-day = now.day
-if day < 10:
-    day = '0' + str(day)
-if month < 10:
-    month = '0' + str(month)
-    
-    
+
+
 def clicked_checkbox(checkbox_var): 
     global completed_tasks
     if checkbox_var.get():
@@ -41,13 +36,35 @@ def update_tasks():
     
 def add_task():
     global tasks
-    add_new_task_window = AddNewTaskBox(master=app)
+    add_new_task_window = AddNewTaskBox(master=app, font=FONT)
     app.wait_window(add_new_task_window)
     new_task_text = add_new_task_window.get_task_value()
     if new_task_text != "":
         tasks.append(Task(master=scrollable_frame, text=new_task_text, font=FONT))
         update_tasks()    
 
+def change_theme():
+    current_mode = get_appearance_mode()
+    print(current_mode)
+    if current_mode == "Dark":
+        set_appearance_mode("Light")
+        canvas.configure(bg="#B5ACAC")
+    else:
+        set_appearance_mode("Dark")
+        canvas.configure(bg="#282828")
+
+def close_app():
+    app.destroy()
+
+
+now = dt.datetime.now()
+month = now.month
+day = now.day
+if day < 10:
+    day = '0' + str(day)
+if month < 10:
+    month = '0' + str(month)
+    
 
 app = CTk()
 set_appearance_mode("dark")
@@ -64,12 +81,12 @@ frame_app.grid_columnconfigure(0, weight=1)
 
 
 title_label = Task(master=frame_app, text=f"Rzeczy do zrobienia na dzień {day}-{month}", font=FONT)
-title_label.grid(row=0, column=0, columnspan=3, pady=5)
+title_label.grid(row=0, column=0, columnspan=3, pady=10)
 frame_tasks = CTkFrame(master=frame_app, border_color="#4BF6C3", border_width=2)
 frame_tasks.grid(row=2, column=0, columnspan=3)
 
 #Scrollbar
-canvas = CTkCanvas(frame_tasks, bg="#282828")
+canvas = CTkCanvas(frame_tasks, bg="#282828", height=100)
 canvas.grid(row=0, column=0, columnspan=3, sticky="nsew")
 
 scrollbar = CTkScrollbar(frame_tasks, command=canvas.yview, button_hover_color="#4BF6C3")
@@ -98,11 +115,6 @@ tasks = [Task(master=scrollable_frame, text="Czytanie książki o rozwoju", font
         Task(master=scrollable_frame, text="Medytacja przynajmniej przez 5 minut", font=FONT),
         Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
         Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-        Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-        Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-        Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-        Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-        Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
         ]
 
 
@@ -117,7 +129,24 @@ progressBar.set((completed_tasks/len(tasks)))
 progressBar.grid(row=len(tasks) + 2, column=0, columnspan=3, pady=(0, 20))
 
 
-add_button = CTkButton(master=frame_app, text="Dodaj zadanie", width=400, height=30, command=add_task)
+add_button = CTkButton(master=frame_app, text="Dodaj zadanie", width=400, height=45, font=FONT, command=add_task)
 add_button.grid(row=len(tasks)+3, column=0, columnspan=3, pady=(10, 5))
+
+remove_button = CTkButton(master=frame_app, fg_color="#f44336", hover_color="#B6342A", text="Usuń zadanie", width=400, height=45, font=FONT, command=None)
+remove_button.grid(row=len(tasks)+4, column=0,columnspan=3, pady=(10,5))
+
+dark_theme_image = Image.open("images/dark_theme.png")
+light_theme_image = Image.open("images/light_theme.png")
+
+button_image = CTkImage(light_image=dark_theme_image,dark_image=light_theme_image, size=(20,20))
+
+theme_button = CTkButton(master=frame_app, fg_color="#4A4646", hover_color="#848080", width=100,height=50, corner_radius=6, image=button_image, text="", command=change_theme)
+theme_button.grid(row=len(tasks)+5, column=0, pady=(10,5), sticky="w", padx=(45,0))
+
+language_button = CTkButton(master=frame_app, width=250,height=50, text="Język: Polski", font=FONT)
+language_button.grid(row=len(tasks)+5, column=1, columnspan=2, pady=(10,5),sticky="e", padx=(0,45))
+
+close_app_button = CTkButton(master=frame_app,fg_color="#f44336", hover_color="#B6342A", text="Zamknij", width=100,height=50, font=FONT, command=close_app)
+close_app_button.grid(row=len(tasks)+6, column=2, pady=(100,5), sticky="e", padx=(0,45)) 
 
 app.mainloop()

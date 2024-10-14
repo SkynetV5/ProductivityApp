@@ -12,6 +12,6 @@ class MessageInfoBox(CTkToplevel):
         self.message_frame.pack(fill="both", expand=True)
         self.message_label = CTkLabel(master=self.message_frame, text=self.message, font=self.font)
         self.message_label.pack(pady=50, padx=30)
-        self.button_close = CTkButton(master=self.message_frame, width=100, height=30, text="Zamknij", command=self.destroy)
+        self.button_close = CTkButton(master=self.message_frame, width=100, height=30, text="Zamknij", font=self.font, command=self.destroy)
         self.button_close.pack()
         
