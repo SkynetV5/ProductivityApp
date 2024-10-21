@@ -8,6 +8,7 @@ from tkinter import *
 from PIL import Image
 from classes.payload import load_data, load_config
 from classes.save import save_data, save_config
+from googletrans import Translator
 
 
 data = load_data()
@@ -19,6 +20,24 @@ try:
 except Exception:
     tasks = []
 
+translator = Translator()
+
+def translate_text(language_var):
+    global config
+    language = None
+    if language_var == "Język: Polski":
+        config["language"] = "Język: Polski"
+        save_config(config)
+        language = "pl"
+    elif language_var == "Language: English":
+        config["language"] = "Language: English"
+        save_config(config)
+        language = "en"
+    title_label.configure(text=translator.translate(title_label.cget("text"), dest=language).text)
+    question_label.configure(text=translator.translate(question_label.cget("text"), dest=language).text)
+    add_button.configure(text=translator.translate(add_button.cget("text"), dest=language).text)
+    remove_button.configure(text=translator.translate(remove_button.cget("text"), dest=language).text)
+    close_app_button.configure(text=translator.translate(close_app_button.cget("text"), dest=language).text)
 
 def clicked_checkbox(checkbox_var): 
     global completed_tasks
@@ -30,7 +49,7 @@ def clicked_checkbox(checkbox_var):
      
 def update_progress():
     if len(tasks) != 0:
-        progress = round((completed_tasks/len(tasks)) * 100,2)
+        progress = round((completed_tasks/len(tasks)) * 100, 2)
         progressLabel.configure(text=f"{progress}%")
         progressBar.set((completed_tasks/len(tasks)))
     
@@ -43,7 +62,7 @@ def update_tasks():
         widget.destroy()
     if len(tasks) != 0:
         for task in tasks:
-            task_instance = Task(master=scrollable_frame, text=f"{task['id']}.{task["text"]}", font=FONT)
+            task_instance = Task(master=scrollable_frame, text=f"{task['id']}.{task['text']}", font=FONT)
             task_instance.grid(row=task['id'], column=0,sticky="w", padx=(40,10))
             task_instance.checkbox(row=task['id'], command=lambda var=task_instance.checkbox_var: clicked_checkbox(var))
     
@@ -54,9 +73,10 @@ def add_task():
     new_task_text = add_new_task_window.get_task_value()
     if new_task_text != "":
         task_id = len(tasks) + 1
-        tasks.append({"id": task_id, "text" : new_task_text})
+        tasks.append({"id": task_id, "text": new_task_text})
         save_data({"tasks": tasks})
         update_tasks()    
+        
         
 def remove_task():
     global tasks
@@ -65,15 +85,12 @@ def remove_task():
     value = remove_task_window.get_task_value()
     print(value)
     if value != "":
-        try:
-            task_id = int(value)
-            tasks = [task for task in tasks if task['id'] != task_id]
-            for index,task in enumerate(tasks):
-                task['id'] = index + 1;
-            save_data({"tasks": tasks})
-            update_tasks()
-        except ValueError:
-            error_message_window = MessageInfoBox(master=app,title="Błąd!", message="Podałeś zły numer lub taki numer zadnaia nie istnieje!", border_color="#f44336",font=FONT)
+        task_id = int(value)
+        tasks = [task for task in tasks if task['id'] != task_id]
+        for index, task in enumerate(tasks):
+            task['id'] = index + 1;
+        save_data({"tasks": tasks})
+        update_tasks()
     
 def change_theme():
     current_mode = get_appearance_mode()
@@ -178,11 +195,14 @@ button_image = CTkImage(light_image=dark_theme_image,dark_image=light_theme_imag
 theme_button = CTkButton(master=frame_app, fg_color="#4A4646", hover_color="#848080", width=100,height=50, corner_radius=6, image=button_image, text="", command=change_theme)
 theme_button.grid(row=7, column=0, pady=(10,5), sticky="w", padx=(45,0))
 
-language_var = StringVar(value="Język: Polski")
-language_button = CTkComboBox(master=frame_app, width=250,height=50, values=["Język: Polski", "Language: English"], justify="center", font=FONT, variable=language_var)
-language_button.grid(row=7, column=1, columnspan=2, pady=(10,5),sticky="e", padx=(0,45))
-
 close_app_button = CTkButton(master=frame_app,fg_color="#f44336", hover_color="#B6342A", text="Zamknij", width=100,height=50, font=FONT, command=close_app)
 close_app_button.grid(row=8, column=2, pady=(90,5), sticky="e", padx=(0,45)) 
+
+
+language_var = StringVar(value=config["language"])
+language_button = CTkComboBox(master=frame_app, width=250,height=50, values=["Język: Polski", "Language: English"], justify="center", font=FONT, variable=language_var,command=translate_text)
+language_button.grid(row=7, column=1, columnspan=2, pady=(10,5),sticky="e", padx=(0,45))
+translate_text(language_var.get())
+
 
 app.mainloop()

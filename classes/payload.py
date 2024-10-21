@@ -1,4 +1,5 @@
 import json
+import requests
 
 def load_data():
     file_path = "data/data.json"
@@ -14,11 +15,11 @@ def load_data():
 def load_config():
     file_path = "config.json"
     try:
-        with open(file_path, "r") as config_file:
+        with open(file_path, "r", encoding="utf-8") as config_file:
             config = json.load(config_file)
             return config
     except FileNotFoundError:
-        with open(file_path,"w") as config_file:
-            config = {"theme":"Light", "language":"Polish"}
+        with open(file_path, "w") as config_file:
+            config = {"theme": "Light", "language": "Polish"}
             json.dump(config, config_file)
             return config
