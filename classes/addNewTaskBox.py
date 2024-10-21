@@ -50,5 +50,3 @@ class AddNewTaskBox(CTkToplevel):
     def button_close_command(self):
         self.task.set("")
         self.destroy()
-        
-    

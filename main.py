@@ -83,7 +83,6 @@ def remove_task():
     remove_task_window = RemoveTaskBox(master=app, font=FONT)
     app.wait_window(remove_task_window)
     value = remove_task_window.get_task_value()
-    print(value)
     if value != "":
         task_id = int(value)
         tasks = [task for task in tasks if task['id'] != task_id]
@@ -97,7 +96,6 @@ def change_theme():
     if current_mode == "Dark":
         config['theme'] = "Light"
         set_appearance_mode("Light")
-        
         # canvas.configure(bg="#B5ACAC")
     else:
         config['theme'] = "Dark"
@@ -163,13 +161,6 @@ scrollable_frame.bind(
    
 )
 canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1 * event.delta/120), "units"))
-
-#Tasks
-# tasks = [Task(master=scrollable_frame, text="Czytanie książki o rozwoju", font=FONT),
-#         Task(master=scrollable_frame, text="Medytacja przynajmniej przez 5 minut", font=FONT),
-#         Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-#         Task(master=scrollable_frame, text="Zrobienie kolejnej sekcji na Udemy odnośnie Python'a", font=FONT),
-#         ]
 
 update_tasks() 
     

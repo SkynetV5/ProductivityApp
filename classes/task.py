@@ -12,6 +12,5 @@ class Task(CTkLabel):
         line.grid(row=row, column=0 ,columnspan=2, padx=50,pady=10)
         
     def checkbox(self, row, command=None):
-        
         self.checkbox_widget = CTkCheckBox(master=self.master, text="", width=20, height=20, variable=self.checkbox_var ,command=command)
         self.checkbox_widget.grid(row=row, column=1, padx=10, pady=10, sticky="e")

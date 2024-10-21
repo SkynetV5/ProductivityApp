@@ -54,4 +54,3 @@ class RemoveTaskBox(CTkToplevel):
     def button_close_command(self):
         self.task_id.set("")
         self.destroy()
-        
