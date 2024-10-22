@@ -27,3 +27,6 @@ On Windows
 ```pip install -r requirements.txt```
 
 
+## Build file exe
+
+```pyinstaller --onefile --noconsole --distpath ./ProductivityApp main.py```
