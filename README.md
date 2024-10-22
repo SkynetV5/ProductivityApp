@@ -30,3 +30,10 @@ On Windows
 ## Build file exe
 
 ```pyinstaller --onefile --noconsole --distpath ./ main.py```
+
+# App
+![image](https://github.com/user-attachments/assets/00ecaae4-c908-4d73-befc-796848d3b61a)
+
+![image](https://github.com/user-attachments/assets/d23151d1-0dda-4a34-8e2a-58e720c14212)
+
+
