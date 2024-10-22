@@ -29,4 +29,4 @@ On Windows
 
 ## Build file exe
 
-```pyinstaller --onefile --noconsole --distpath ./ProductivityApp main.py```
+```pyinstaller --onefile --noconsole --distpath ./ main.py```
