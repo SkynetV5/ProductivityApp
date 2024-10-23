@@ -125,7 +125,7 @@ app.grid_rowconfigure(0, weight=1)
 app.grid_columnconfigure(0, weight=1)
 
 frame_app = CTkFrame(master=app, border_color="#4BF6C3", border_width=2)
-frame_app.grid(row=0, column=0, columnspan=2, padx=5, sticky="nsew")
+frame_app.grid(row=0, column=0, columnspan=2, sticky="nsew")
 frame_app.grid_columnconfigure(0, weight=1)
 
 
