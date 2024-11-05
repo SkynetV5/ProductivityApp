@@ -12,8 +12,12 @@ class MessageInfoBox(CTkToplevel):
             language = "en"
         elif self.config['language'] == "Język: Polski":
             language = "pl"
-        translated_message = self.translator.translate(message, dest=language).text
-        translated_title = self.translator.translate(title, dest=language).text
+        try:
+            translated_message = self.translator.translate(message, dest=language).text
+            translated_title = self.translator.translate(title, dest=language).text
+        except Exception:
+            translated_title = title
+            translated_message = message
         self.resizable(False, False)
         self.geometry(geometry)
         self.title(translated_title)

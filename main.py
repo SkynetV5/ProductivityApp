@@ -33,11 +33,15 @@ def translate_text(language_var):
         config["language"] = "Language: English"
         save_config(config)
         language = "en"
-    title_label.configure(text=translator.translate(title_label.cget("text"), dest=language).text)
-    question_label.configure(text=translator.translate(question_label.cget("text"), dest=language).text)
-    add_button.configure(text=translator.translate(add_button.cget("text"), dest=language).text)
-    remove_button.configure(text=translator.translate(remove_button.cget("text"), dest=language).text)
-    close_app_button.configure(text=translator.translate(close_app_button.cget("text"), dest=language).text)
+    try:
+        title_label.configure(text=translator.translate(title_label.cget("text"), dest=language).text)
+        question_label.configure(text=translator.translate(question_label.cget("text"), dest=language).text)
+        add_button.configure(text=translator.translate(add_button.cget("text"), dest=language).text)
+        remove_button.configure(text=translator.translate(remove_button.cget("text"), dest=language).text)
+        close_app_button.configure(text=translator.translate(close_app_button.cget("text"), dest=language).text)
+    except Exception:
+        config["language"] = "Język: Polski"
+        save_config(config)
 
 def clicked_checkbox(checkbox_var): 
     global completed_tasks

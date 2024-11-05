@@ -13,13 +13,19 @@ class RemoveTaskBox(CTkToplevel):
         elif self.config['language'] == "Język: Polski":
             language = "pl"
         title = "Usuń zadanie"
-        translated_title = self.translator.translate(title, dest=language).text
         entry_text = "Wpisz number zadania:"
-        translated_entry_text = self.translator.translate(entry_text, dest=language).text
         remove_text = "Usuń"
-        translated_remove_text = self.translator.translate(remove_text, dest=language).text
         close_text = "Anuluj"
-        translated_close_text = self.translator.translate(close_text, dest=language).text
+        try:
+            translated_title = self.translator.translate(title, dest=language).text
+            translated_entry_text = self.translator.translate(entry_text, dest=language).text
+            translated_remove_text = self.translator.translate(remove_text, dest=language).text
+            translated_close_text = self.translator.translate(close_text, dest=language).text
+        except Exception:
+            translated_title = title
+            translated_entry_text = entry_text
+            translated_remove_text = remove_text
+            translated_close_text = close_text
         self.resizable(False, False)
         self.geometry(geometry)
         self.title(translated_title)
